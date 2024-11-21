@@ -13,4 +13,4 @@ RUN apt-get update \
 # Copy the requirements file into the container
 COPY . /app
 
-CMD ["python", "app.py"]
+CMD ["python", "hello.py"]
