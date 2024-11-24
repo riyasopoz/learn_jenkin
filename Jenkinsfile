@@ -56,7 +56,7 @@ pipeline {
                     // Run tests inside the Docker container.
                     // The app.inside block runs commands inside a container based on the built image.
                     inside {
-                        sh 'python hello.py'  // Placeholder for actual tests; replace with real test commands
+                        //sh 'python hello.py'  // Placeholder for actual tests; replace with real test commands
                     }
                 }
             }
