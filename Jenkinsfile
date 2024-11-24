@@ -44,7 +44,7 @@ pipeline {
                 script {
                 sh "docker stop $imagename || true"
                 sh "docker rm $imagename || true"
-                sh "docker run -d $imagename:$BUILD_NUMBER -it rputhenp/hello_app python hello.py"
+                sh "docker run -it $imagename:$BUILD_NUMBER python hello.pydocker"
                 //sh "docker run -d $imagename:$BUILD_NUMBER"
                 }
             }
