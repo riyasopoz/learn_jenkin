@@ -1,7 +1,7 @@
 FROM python:3.9
 
 # Set the working directory in the container
-WORKDIR /app
+WORKDIR .
 
 # Install system dependencies
 RUN apt-get update \
@@ -9,8 +9,5 @@ RUN apt-get update \
         build-essential \
         libpq-dev \
     && rm -rf /var/lib/apt/lists/*
-
-# Copy the requirements file into the container
-COPY . /app
 
 CMD ["python", "hello.py"]
