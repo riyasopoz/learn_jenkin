@@ -2,7 +2,7 @@ pipeline {
     agent { label 'first_agent' }  // Set the default agent for the entire pipeline
     environment {
     imagename = "rputhenp/hello_app"
-    registryCredential = "riyas-dockerhub"
+    registryCredential = "docker"
     dockerImage = ''
     }
     stages {
