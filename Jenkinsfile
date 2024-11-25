@@ -44,8 +44,7 @@ pipeline {
                 script {
                 sh "docker stop $imagename || true"
                 sh "docker rm $imagename || true"
-                sh "docker run -i $imagename:$BUILD_NUMBER python hello.pydocker"
-                //sh "docker run -d $imagename:$BUILD_NUMBER"
+                sh "docker run $imagename:$BUILD_NUMBER"
                 }
             }
         }
@@ -56,7 +55,7 @@ pipeline {
                     // Run tests inside the Docker container.
                     // The app.inside block runs commands inside a container based on the built image.
                     inside {
-                        //sh 'python hello.py'  // Placeholder for actual tests; replace with real test commands
+                        sh 'python hello.py'
                     }
                 }
             }
