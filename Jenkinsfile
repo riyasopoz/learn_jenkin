@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     //building the docker image with build number as tag
-                    dockerImage = docker.build("$imagename:$$BUILD_NUMBER")
+                    dockerImage = docker.build("$imagename:$BUILD_NUMBER")
                 }
             }
         }
