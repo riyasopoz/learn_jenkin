@@ -27,8 +27,7 @@ pipeline {
                 script {
                     //Pushing the image to dockerhub
                     docker.withRegistry('', registryCredential) {
-                        dockerImage.push()
-                        dockerImage.push('latest')
+                        dockerImage.push("$BUILD_NUMBER")
                     }
                 }
             }
