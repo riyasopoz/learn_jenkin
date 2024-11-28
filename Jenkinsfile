@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'first_agent' }  // Set the default agent for the entire pipeline
     environment {
-    imagename = "rputhenp/hello_app:latest"
+    imagename = "rputhenp/hello_app"
     registryCredential = "dockercred"
     dockerImage = ''
     }
@@ -16,7 +16,8 @@ pipeline {
         stage('Build docker image') {
             steps {
                 script {
-                    dockerImage = docker.build imagename
+                    //building the docker image with build number as tag
+                    dockerImage = docker.build("$imagename:$$BUILD_NUMBER")
                 }
             }
         }
@@ -24,8 +25,10 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
+                    //Pushing the image to dockerhub
                     docker.withRegistry('', registryCredential) {
-                        sh "docker push $imagename:$BUILD_NUMBER"
+                        dockerImage.push()
+                        dockerImage.push('latest')
                     }
                 }
             }
@@ -34,9 +37,11 @@ pipeline {
         stage('Start Container') {
             steps {
                 script {
-                sh "docker stop $imagename || true"
-                sh "docker rm $imagename || true"
-                sh "docker run $imagename:$BUILD_NUMBER"
+                    //running the container using the image
+                def containername = "hello_app_container"
+                sh "docker stop $containername || true"
+                sh "docker rm $containername || true"
+                sh "docker run --name $containername $imagename:$BUILD_NUMBER"
                 }
             }
         }
@@ -45,7 +50,6 @@ pipeline {
             steps {
                 script {
                     // Run tests inside the Docker container.
-                    // The app.inside block runs commands inside a container based on the built image.
                     inside {
                         sh 'python hello.py'
                     }
@@ -55,8 +59,9 @@ pipeline {
 
         stage('Remove Unused docker image') {
             steps{
-                sh "docker rmi $imagename:$BUILD_NUMBER"
-                sh "docker rmi $imagename:latest"
+                //removing unused images
+                sh "docker rmi $imagename:$BUILD_NUMBER || true"
+                sh "docker rmi $imagename:latest || true"
             }
         } 
     }
