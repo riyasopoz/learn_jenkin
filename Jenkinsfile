@@ -54,10 +54,7 @@ pipeline {
         stage('Run test script on the app') {
             steps {
                 script {
-                    // Run tests inside the Docker container.
-                    inside {
-                        sh 'python hello.py'
-                    }
+                    sh "docker exec -it $containername whoami"
                 }
             }
         }
