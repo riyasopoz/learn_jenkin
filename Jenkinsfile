@@ -33,6 +33,13 @@ pipeline {
                 }
             }
         }
+        stage('Remove Unused docker image') {
+            steps{
+                //removing unused images
+                sh "docker rmi $imagename:$BUILD_NUMBER || true"
+                sh "docker rmi $imagename:latest || true"
+            }
+        } 
 
         stage('Start Container') {
             steps {
@@ -57,12 +64,5 @@ pipeline {
             }
         }
 
-        stage('Remove Unused docker image') {
-            steps{
-                //removing unused images
-                sh "docker rmi $imagename:$BUILD_NUMBER || true"
-                sh "docker rmi $imagename:latest || true"
-            }
-        } 
     }
 }
