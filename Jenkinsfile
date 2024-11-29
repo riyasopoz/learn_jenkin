@@ -46,7 +46,7 @@ pipeline {
                 def containername = "hello_app_container"
                 sh "docker stop $containername || true"
                 sh "docker rm $containername || true"
-                sh "docker run -d --name $containername $imagename:latest"
+                sh "docker run -d --name $containername $imagename:$BUILD_NUMBER"
                 }
             }
         }
